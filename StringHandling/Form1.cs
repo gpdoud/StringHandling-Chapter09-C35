@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,7 +19,7 @@ namespace StringHandling {
             // TODO: Add code to parse name
             string[] nameParts = txtFullName.Text.Split(" ");
             string firstname = nameParts[0];
-            string middlename = string.Empty;
+            string? middlename = null;
             string lastname = string.Empty;
             if (nameParts.Length == 3) {
                 middlename = nameParts[1];
@@ -30,7 +31,7 @@ namespace StringHandling {
             sb.Append("First name:\t");
             sb.AppendLine(firstname.Substring(0, 1).ToUpper() + firstname.Substring(1));
             sb.Append("Middle name:\t");
-            if (middlename.Length == 0) {
+            if (middlename == null) {
                 sb.AppendLine();
             } else {
                 sb.AppendLine(middlename.Substring(0, 1).ToUpper() + middlename.Substring(1));
@@ -42,6 +43,19 @@ namespace StringHandling {
 
         private void btnEditPhoneNumber_Click(object sender, System.EventArgs e) {
             // TODO: Add code to edit the phone number
+            string phoneNumber = txtPhoneNumber.Text.Replace("(", "");
+            string digitsOnly = phoneNumber.Replace(")", "");
+            digitsOnly = digitsOnly.Replace("-", "");
+            digitsOnly = digitsOnly.Replace(" ", "");
+            string standardFormat = digitsOnly.Substring(0, 3) + "-" 
+                                  + digitsOnly.Substring(3, 3) + "-" 
+                                  + digitsOnly.Substring(6);
+
+            string message = string.Empty;
+            message += $"Entered        :\t{txtPhoneNumber.Text}\n\n";
+            message += $"Digits only    :\t{digitsOnly}\n\n";
+            message += $"Standard format:\t{standardFormat}\n\n";
+            MessageBox.Show(message, "Edit Phone Number");
         }
 
         // TODO: Add ToInitialCap method here
